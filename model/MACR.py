@@ -33,10 +33,13 @@ class MACR(BaseRecommender):
         self.batch_size = model_conf['batch_size']
         self.test_batch_size = model_conf['test_batch_size']
         help_dir = os.path.join(self.dataset.data_dir, self.dataset.data_name)
-        help_dir = os.path.join(help_dir, 'bias_scores')
-        self.train_user_list = np.load(help_dir + '/train_user_list.npy', allow_pickle=True)
+        # help_dir = os.path.join(help_dir, 'bias_scores')
+        self.train_user_list = np.load(help_dir + '/user_train_like.npy', allow_pickle=True)
+
+        # NOT AVAILABLE YET
         self.user_pop = np.load(help_dir + '/user_activeness.npy')
         self.item_pop = np.load(help_dir + '/item_popularity.npy')
+        
         self.neg_sample = model_conf['neg_sample_rate']
         self.alpha = model_conf['alpha']
         self.beta = model_conf['beta']

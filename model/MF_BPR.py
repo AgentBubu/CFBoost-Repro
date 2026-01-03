@@ -45,8 +45,8 @@ class MF_BPR(BaseRecommender):
         self.regularization = model_conf['reg']
         self.lr = model_conf['lr']
         help_dir = os.path.join(self.dataset.data_dir, self.dataset.data_name)
-        help_dir = os.path.join(help_dir, 'bias_scores')
-        self.train_user_list = np.load(help_dir + '/train_user_list.npy', allow_pickle=True)
+        # help_dir = os.path.join(help_dir, 'bias_scores')
+        self.train_user_list = np.load(help_dir + '/user_train_like.npy', allow_pickle=True)
         self.train_df = dataset.train_df
         self.device = device
         self.loss_function = torch.nn.MSELoss()

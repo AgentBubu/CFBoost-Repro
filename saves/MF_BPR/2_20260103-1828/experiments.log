@@ -1,0 +1,65 @@
+[54]2026-01-03 18:28:58,257: 
+>>>>> Main Config
+[Dataset]
+data_dir: data/recsys_data
+dataset: amazon_cds
+min_user_per_item: 1
+min_item_per_user: 10
+leave_k: 5
+popularity_order: True
+
+[Evaluator]
+ks: [1, 5, 10, 20]
+
+[EarlyStop]
+early_stop: 10
+early_stop_measure: mean
+
+[Experiment]
+num_epochs: 72
+verbose: 0
+print_step: 1
+test_step: 1
+test_from: 0
+model_name: MF_BPR
+gpu: 0
+
+>>>>> model Config
+[Model]
+dropout: 0
+emb_dim: 100
+neg_sample_rate: 1
+reg: 1e-05
+batch_size: 1024
+test_batch_size: 1024
+lr: 0.001
+
+
+[54]2026-01-03 18:28:58,258: 
+Dataset: amazon_cds
+# of users: 581
+# of items: 636
+
+[54]2026-01-03 18:28:59,279: train start ... !
+[54]2026-01-03 18:28:59,472: epoch=  1, loss=0.693, train time=0.01, epoch time=0.19 (0.01 + 0.17), NDCG@1=0.0086, NDCG@5=0.0099, NDCG@10=0.0141, NDCG@20=0.0193
+[54]2026-01-03 18:28:59,592: epoch=  2, loss=0.693, train time=0.01, epoch time=0.11 (0.01 + 0.10), NDCG@1=0.0086, NDCG@5=0.0095, NDCG@10=0.0138, NDCG@20=0.0194
+[54]2026-01-03 18:28:59,767: epoch=  3, loss=0.692, train time=0.06, epoch time=0.17 (0.06 + 0.11), NDCG@1=0.0069, NDCG@5=0.0095, NDCG@10=0.0133, NDCG@20=0.0187
+[54]2026-01-03 18:28:59,936: epoch=  4, loss=0.691, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0093, NDCG@10=0.0135, NDCG@20=0.0187
+[54]2026-01-03 18:29:00,104: epoch=  5, loss=0.690, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0093, NDCG@10=0.0133, NDCG@20=0.0185
+[54]2026-01-03 18:29:00,275: epoch=  6, loss=0.692, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0098, NDCG@10=0.0132, NDCG@20=0.0184
+[54]2026-01-03 18:29:00,443: epoch=  7, loss=0.692, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0098, NDCG@10=0.0131, NDCG@20=0.0183
+[54]2026-01-03 18:29:00,612: epoch=  8, loss=0.691, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0092, NDCG@10=0.0131, NDCG@20=0.0182
+[54]2026-01-03 18:29:00,780: epoch=  9, loss=0.692, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0089, NDCG@10=0.0131, NDCG@20=0.0181
+[54]2026-01-03 18:29:00,947: epoch= 10, loss=0.690, train time=0.06, epoch time=0.16 (0.06 + 0.10), NDCG@1=0.0069, NDCG@5=0.0092, NDCG@10=0.0134, NDCG@20=0.0179
+[54]2026-01-03 18:29:01,108: Early stop triggered.
+[54]2026-01-03 18:29:01,109: 
+Total training time - 0:0:1(=1.7 sec)
+[54]2026-01-03 18:29:01,109: 
+Best Result
+=============================================================================================
+|| NAME  || NDCG@1 || NDCG@5 || NDCG@10 || NDCG@20 || DG@1   || DG@5   || DG@10  || DG@20  ||
+||-----------------------------------------------------------------------------------------||
+|| Score || 0.0086 || 0.0099 || 0.0141  || 0.0193  || 0.0079 || 0.0225 || 0.0389 || 0.0561 ||
+=============================================================================================
+
+[54]2026-01-03 18:29:01,110: Saved to saves/MF_BPR/2_20260103-1828

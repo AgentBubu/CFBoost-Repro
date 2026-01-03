@@ -51,9 +51,15 @@ class MF_adaboost(BaseRecommender):
         self.tau = model_conf['tau']
         self.model_conf = model_conf
         self.device = device
+
+        # ORIGINAL
+        # help_dir = os.path.join(self.dataset.data_dir, self.dataset.data_name)
+        # help_dir = os.path.join(help_dir, 'bias_scores')
+        # self.test_like_item = np.load(help_dir + '/test_like_item.npy', allow_pickle=True)
+
+        # MODIFIED 
         help_dir = os.path.join(self.dataset.data_dir, self.dataset.data_name)
-        help_dir = os.path.join(help_dir, 'bias_scores')
-        self.test_like_item = np.load(help_dir + '/test_like_item.npy', allow_pickle=True)
+        self.test_like_item = np.load(help_dir + '/user_test_like.npy', allow_pickle=True) # <-- Changed filename
 
         # self.test_data = dataset.test_dict
         # self.test_ = np.zeros((self.num_users, self.num_items))

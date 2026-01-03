@@ -1,0 +1,27 @@
+[54]2026-01-03 18:46:25,200: Local 28 train start...
+[54]2026-01-03 18:46:31,222: [Local  28] epoch=  1, loss=87.090, train time=4.85, epoch time=6.02 (4.85 + 1.17), NDCG@1=0.0630, NDCG@5=0.0691, NDCG@10=0.0771, NDCG@20=0.0973
+[54]2026-01-03 18:46:36,826: [Local  28] epoch=  2, loss=85.479, train time=4.32, epoch time=5.60 (4.32 + 1.28), NDCG@1=0.0751, NDCG@5=0.0815, NDCG@10=0.0939, NDCG@20=0.1162
+[54]2026-01-03 18:46:42,415: [Local  28] epoch=  3, loss=82.804, train time=4.43, epoch time=5.59 (4.43 + 1.16), NDCG@1=0.0993, NDCG@5=0.0870, NDCG@10=0.1042, NDCG@20=0.1303
+[54]2026-01-03 18:46:47,977: [Local  28] epoch=  4, loss=80.015, train time=4.38, epoch time=5.56 (4.38 + 1.18), NDCG@1=0.1259, NDCG@5=0.1020, NDCG@10=0.1177, NDCG@20=0.1424
+[54]2026-01-03 18:46:53,451: [Local  28] epoch=  5, loss=78.234, train time=4.35, epoch time=5.47 (4.35 + 1.12), NDCG@1=0.1453, NDCG@5=0.1238, NDCG@10=0.1312, NDCG@20=0.1558
+[54]2026-01-03 18:46:58,942: [Local  28] epoch=  6, loss=76.733, train time=4.34, epoch time=5.49 (4.34 + 1.15), NDCG@1=0.1356, NDCG@5=0.1332, NDCG@10=0.1351, NDCG@20=0.1618
+[54]2026-01-03 18:47:03,725: [Local  28] epoch=  7, loss=74.573, train time=3.82, epoch time=4.78 (3.82 + 0.97), NDCG@1=0.1453, NDCG@5=0.1405, NDCG@10=0.1458, NDCG@20=0.1736
+[54]2026-01-03 18:47:08,754: [Local  28] epoch=  8, loss=72.043, train time=3.82, epoch time=5.03 (3.82 + 1.21), NDCG@1=0.1671, NDCG@5=0.1547, NDCG@10=0.1678, NDCG@20=0.1976
+[54]2026-01-03 18:47:14,936: [Local  28] epoch=  9, loss=69.587, train time=4.92, epoch time=6.18 (4.92 + 1.27), NDCG@1=0.1816, NDCG@5=0.1690, NDCG@10=0.1841, NDCG@20=0.2186
+[54]2026-01-03 18:47:21,195: [Local  28] epoch= 10, loss=67.239, train time=4.98, epoch time=6.26 (4.98 + 1.28), NDCG@1=0.1985, NDCG@5=0.1810, NDCG@10=0.1950, NDCG@20=0.2304
+[54]2026-01-03 18:47:24,883: [Local  28] epoch= 11, loss=64.945, train time=3.22, epoch time=3.69 (3.22 + 0.47), NDCG@1=0.2131, NDCG@5=0.1832, NDCG@10=0.2027, NDCG@20=0.2369
+[54]2026-01-03 18:47:30,900: [Local  28] epoch= 12, loss=62.740, train time=4.91, epoch time=6.02 (4.91 + 1.10), NDCG@1=0.2228, NDCG@5=0.1904, NDCG@10=0.2096, NDCG@20=0.2427
+[54]2026-01-03 18:47:36,606: [Local  28] epoch= 13, loss=60.712, train time=4.60, epoch time=5.70 (4.60 + 1.10), NDCG@1=0.2203, NDCG@5=0.1984, NDCG@10=0.2139, NDCG@20=0.2483
+[54]2026-01-03 18:47:41,820: [Local  28] epoch= 14, loss=58.944, train time=4.08, epoch time=5.21 (4.08 + 1.13), NDCG@1=0.2203, NDCG@5=0.1976, NDCG@10=0.2163, NDCG@20=0.2521
+[54]2026-01-03 18:47:47,771: [Local  28] epoch= 15, loss=57.424, train time=4.70, epoch time=5.95 (4.70 + 1.25), NDCG@1=0.2203, NDCG@5=0.1947, NDCG@10=0.2162, NDCG@20=0.2519
+[54]2026-01-03 18:47:53,572: [Local  28] epoch= 16, loss=56.091, train time=4.64, epoch time=5.80 (4.64 + 1.16), NDCG@1=0.2276, NDCG@5=0.1895, NDCG@10=0.2159, NDCG@20=0.2491
+[54]2026-01-03 18:47:58,844: [Local  28] epoch= 17, loss=54.898, train time=4.24, epoch time=5.27 (4.24 + 1.03), NDCG@1=0.2082, NDCG@5=0.1889, NDCG@10=0.2104, NDCG@20=0.2496
+[54]2026-01-03 18:48:03,234: [Local  28] epoch= 18, loss=53.799, train time=3.21, epoch time=4.39 (3.21 + 1.18), NDCG@1=0.1985, NDCG@5=0.1890, NDCG@10=0.2088, NDCG@20=0.2520
+[54]2026-01-03 18:48:08,517: [Local  28] epoch= 19, loss=52.777, train time=4.06, epoch time=5.28 (4.06 + 1.23), NDCG@1=0.1889, NDCG@5=0.1844, NDCG@10=0.2051, NDCG@20=0.2493
+[54]2026-01-03 18:48:14,490: [Local  28] epoch= 20, loss=51.818, train time=4.91, epoch time=5.97 (4.91 + 1.07), NDCG@1=0.2107, NDCG@5=0.1838, NDCG@10=0.2098, NDCG@20=0.2503
+[54]2026-01-03 18:48:19,878: [Local  28] epoch= 21, loss=50.922, train time=4.20, epoch time=5.39 (4.20 + 1.19), NDCG@1=0.1961, NDCG@5=0.1765, NDCG@10=0.2042, NDCG@20=0.2468
+[54]2026-01-03 18:48:25,721: [Local  28] epoch= 22, loss=50.095, train time=4.70, epoch time=5.84 (4.70 + 1.15), NDCG@1=0.1768, NDCG@5=0.1741, NDCG@10=0.2024, NDCG@20=0.2431
+[54]2026-01-03 18:48:30,223: [Local  28] epoch= 23, loss=49.321, train time=3.47, epoch time=4.50 (3.47 + 1.03), NDCG@1=0.1719, NDCG@5=0.1728, NDCG@10=0.2013, NDCG@20=0.2426
+[54]2026-01-03 18:48:34,912: [Local  28] epoch= 24, loss=48.597, train time=3.54, epoch time=4.69 (3.54 + 1.15), NDCG@1=0.1768, NDCG@5=0.1759, NDCG@10=0.2000, NDCG@20=0.2449
+[54]2026-01-03 18:48:40,957: Early stop triggered.
+[54]2026-01-03 18:48:40,957: Local 28 done...

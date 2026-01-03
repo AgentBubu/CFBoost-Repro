@@ -1,0 +1,66 @@
+[54]2026-01-03 18:31:18,744: 
+>>>>> Main Config
+[Dataset]
+data_dir: data/recsys_data
+dataset: amazon_cds
+min_user_per_item: 1
+min_item_per_user: 10
+leave_k: 5
+popularity_order: True
+
+[Evaluator]
+ks: [1, 5, 10, 20]
+
+[EarlyStop]
+early_stop: 10
+early_stop_measure: mean
+
+[Experiment]
+num_epochs: 72
+verbose: 0
+print_step: 1
+test_step: 1
+test_from: 0
+model_name: LOCA_VAE
+gpu: 0
+
+>>>>> model Config
+[Model]
+num_local: 40
+anchor_selection: coverage
+dist_type: arccos
+kernel_type: epanechnikov
+train_h: 1
+test_h: 0.8
+embedding: MultVAE
+num_local_threads: 5
+batch_size: 512
+test_batch_size: 1024
+lr: 0.01
+dropout: 0
+reg: 0.0001
+enc_dims: [100]
+anneal_cap: 0.2
+total_anneal_steps: 200000
+
+
+[54]2026-01-03 18:31:18,745: 
+Dataset: amazon_cds
+# of users: 581
+# of items: 636
+
+[54]2026-01-03 18:31:18,800: train start ... !
+[54]2026-01-03 18:31:18,801: Train coverage : 0.88550 (Average), 1.00000 (Max), 0.85198 (Min)
+[54]2026-01-03 18:31:18,801: Test coverage : 0.71278 (Average), 0.93976 (Max), 0.57315 (Min)
+[54]2026-01-03 18:53:09,243: NDCG@1=0.2289, NDCG@5=0.2190, NDCG@10=0.2414, NDCG@20=0.2820, DG@1=0.2091, DG@5=0.5075, DG@10=0.6589, DG@20=0.7984
+[54]2026-01-03 18:53:09,244: 
+Total training time - 0:21:48(=1308.9 sec)
+[54]2026-01-03 18:53:09,244: 
+Best Result
+=============================================================================================
+|| NAME  || NDCG@1 || NDCG@5 || NDCG@10 || NDCG@20 || DG@1   || DG@5   || DG@10  || DG@20  ||
+||-----------------------------------------------------------------------------------------||
+|| Score || 0.2289 || 0.2190 || 0.2414  || 0.2820  || 0.2091 || 0.5075 || 0.6589 || 0.7984 ||
+=============================================================================================
+
+[54]2026-01-03 18:53:09,244: Saved to saves/LOCA_VAE/0_20260103-1831
