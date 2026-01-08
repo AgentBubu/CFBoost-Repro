@@ -67,10 +67,10 @@ class MF_CFAdaBoost(BaseRecommender):
         if not os.path.exists(similarity_dir):
             os.mkdir(similarity_dir)
 
-        s_file = os.path.join(similarity_dir, 'MF_adaboost_records')
+        s_file = os.path.join(similarity_dir, 'MF_CFadaboost_records')
         if not os.path.exists(s_file):
             os.mkdir(s_file)
-        similarity_file = os.path.join(s_file, self.time + '_MF_record_scores')
+        similarity_file = os.path.join(s_file, self.time + '_MF_CFrecord_scores')
         if not os.path.exists(similarity_file):
             os.mkdir(similarity_file)
         best_result = None
@@ -155,7 +155,7 @@ class MF_CFAdaBoost(BaseRecommender):
 
 
         test_score_output, ndcg_test_all = evaluator.evaluate_full_boost(self)
-        mf_boost_file = os.path.join(similarity_dir, 'MF_adaboost_scores')
+        mf_boost_file = os.path.join(similarity_dir, 'MF_CFadaboost_scores')
         if not os.path.exists(mf_boost_file):
             os.mkdir(mf_boost_file)
         with open(os.path.join(mf_boost_file, self.time + '_boost_scores.npy'), 'wb') as f:

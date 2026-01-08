@@ -14,3 +14,6 @@ from .BC_Loss import BC_Loss
 from .Zerosum import Zerosum
 
 from .MF_adaboost import MF_adaboost
+
+# new
+from .MF_CFAdaBoost import MF_CFAdaBoost
