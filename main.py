@@ -18,22 +18,21 @@ from torch.nn.parallel import DistributedDataParallel
 import warnings
 import gc
 
+# Filter warnings to keep output clean
 warnings.filterwarnings("ignore")
 
+# Set CUDA Device Order
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-# os.environ["CUDA_DEVICE_ORDER"] = "0, 1"
-# os.environ['TF_FORCE_GPU_ALLOW_GROWTH']='true'
-# print(torch.cuda.device_count())
 
 if __name__ == '__main__':
     multiprocessing.set_start_method('spawn')
     from experiment import EarlyStop, train_model
-    from utils import Config, Logger, ResultTable, make_log_dir#, set_random_seed
+    from utils import Config, Logger, ResultTable, make_log_dir
 
-    # read configs
+    # 1. Read Configuration
     config = Config(main_conf_path='./', model_conf_path='model_config')
 
-    # apply system arguments if exist
+    # 2. Apply Command Line Arguments
     argv = sys.argv[1:]
     if len(argv) > 0:
         cmd_arg = OrderedDict()
@@ -44,72 +43,95 @@ if __name__ == '__main__':
             cmd_arg[arg_name] = arg_value
         config.update_params(cmd_arg)
 
+    # 3. Setup GPU
     gpu = config.get_param('Experiment', 'gpu')
     gpu = str(gpu)
     os.environ["CUDA_VISIBLE_DEVICES"] = gpu
-    # os.environ["CUDA_DEVICE_ORDER"] = "0, 1"
-
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # device = torch.device("cpu")
-    # device_ids = [0, 1]
-    # print(device)
+    
     model_name = config.get_param('Experiment', 'model_name')
 
-    # logger
+    # 4. Logger Setup
     log_dir = make_log_dir(os.path.join('saves', model_name))
     logger = Logger(log_dir)
     config.save(log_dir)
 
-    # dataset
+    # 5. Load Dataset
     dataset_name = config.get_param('Dataset', 'dataset')
-    dataset_type = CONSTANT.DATASET_TO_TYPE[dataset_name]
     dataset = UIRTDatset(**config['Dataset'])
 
-    # evaluator
+    # 6. Setup Evaluator
     num_users, num_items = dataset.num_users, dataset.num_items
-
-    ###
     test_eval_pos, test_eval_target, vali_eval_target, eval_neg_candidates = dataset.test_data()
-    # test_evaluator = Evaluator(test_eval_pos, test_eval_target, eval_neg_candidates, **config['Evaluator'], num_users=num_users, num_items=num_items, item_id = dataset.item_id_dict)
-    test_evaluator = Evaluator(test_eval_pos, test_eval_target, vali_eval_target, eval_neg_candidates, **config['Evaluator'], num_users=num_users, num_items=num_items, item_id=None)
+    
+    # We pass None for item_id to save memory unless specifically needed
+    test_evaluator = Evaluator(test_eval_pos, test_eval_target, vali_eval_target, 
+                               eval_neg_candidates, **config['Evaluator'], 
+                               num_users=num_users, num_items=num_items, item_id=None)
 
-    # early stop
+    # 7. Early Stop Setup
     early_stop = EarlyStop(**config['EarlyStop'])
 
-    # Save log & dataset config.
+    # Save configs to log
     logger.info(config)
     logger.info(dataset)
 
-    # # initialize the process group
-    # dist.init_process_group(backend='nccl', init_method='env://', rank=int(os.environ['RANK']), world_size=int(os.environ['WORLD_SIZE']))
-    # rank = dist.get_rank()
-
+    # 8. Build Model Dynamically
     import model
     MODEL_CLASS = getattr(model, model_name)
-
-    # seed = config.get_param('Experiment', 'seed')
-
-    # build model
-    # set_random_seed(seed)
-
     model = MODEL_CLASS(dataset, config['Model'], device)
 
-    # train
+    # 9. Train Model
+    # Note: test_score returned here contains the Best Result found during training
     test_score, train_time = train_model(model, dataset, test_evaluator, early_stop, logger, config)
 
+    # 10. Log Training Time
     m, s = divmod(train_time, 60)
     h, m = divmod(m, 60)
     logger.info('\nTotal training time - %d:%d:%d(=%.1f sec)' % (h, m, s, train_time))
 
-    # show result
+    # ==============================================================================
+    # OUTPUT SECTION: SHOW RESULTS TABLE
+    # ==============================================================================
+    
+    # A. Standard Log Table (Auto-formatted)
     evaluation_table = ResultTable(table_name='Best Result', header=list(test_score.keys()))
     evaluation_table.add_row('Score', test_score)
-
-    # evaluation_table.show()
     logger.info(evaluation_table.to_string())
+
+    # B. Custom Expanded Table (Includes MDG@20 and DG for all K)
+    print('\n' + '=' * 140)
+    print(f'|| FINAL SUMMARY: {model_name} on {dataset_name}')
+    print('=' * 140)
+    
+    # Define the exact columns you want to see
+    keys_to_print = [
+        'NDCG@1', 'NDCG@5', 'NDCG@10', 'NDCG@20', 
+        'DG@1',   'DG@5',   'DG@10',   'DG@20', 
+        'MDG@20'
+    ]
+    
+    # Create Header
+    header_str = "|| " + " || ".join([f"{k:<8}" for k in keys_to_print]) + " ||"
+    print(header_str)
+    print('-' * 140)
+    
+    # Create Value Row
+    val_str = "|| "
+    for k in keys_to_print:
+        # Get value from test_score dictionary, default to 0.0 if not found
+        val = test_score.get(k, 0.0)
+        val_str += f"{val:.4f}   || "
+    print(val_str)
+    print('=' * 140 + '\n')
+
     logger.info("Saved to %s" % (log_dir))
 
-    # Extract global model
+    # ==============================================================================
+    # EXTRACTION SECTION (Legacy support for MultVAE/EASE/LOCA)
+    # ==============================================================================
+    
+    # Extract global model output (for Distillation or Analysis)
     if 'LOCA' not in model_name and (model_name == 'MultVAE' or model_name == 'EASE'):
         output = model.get_output(dataset)
 
@@ -122,7 +144,7 @@ if __name__ == '__main__':
         config.save(output_dir)
         print(f"{model_name} output extracted!")
 
-    # Extract Embedding
+    # Extract Embedding (Specific to MultVAE analysis)
     if model_name == 'MultVAE':
         user_embedding = model.user_embedding(test_eval_pos)
 
@@ -134,7 +156,3 @@ if __name__ == '__main__':
             pickle.dump(user_embedding, f, protocol=4)
         config.save(emb_dir)
         print(f"{model_name} embedding extracted!")
-
-    # del model
-    # gc.collect()
-    # torch.cuda.empty_cache()
