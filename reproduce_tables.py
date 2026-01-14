@@ -17,20 +17,22 @@ ITEM_MAINSTREAM_PATH = "item_mainstream.npy"
 # IMPORTANT: You must update the paths below with your actual filenames!
 # ==============================================================================
 
+# windows = back \
+# linux = forward /
 MODEL_FILES = {
     "MF (Baseline)": {
         # Path to the standard score file (contains NDCG dict)
-        "user": r"data\recsys_data\amazon_cds\bias_scores\MF_scores\20260103-1826_mf_scores.npy",
+        "user": r"data/recsys_data/amazon_cds/bias_scores/MF_scores/20260114-1514_mf_scores.npy",
         # Path to the NEW item score file you generated (contains MDG array)
-        "item": r"data\recsys_data\amazon_cds\bias_scores\MF_scores\YOUR_NEW_TIMESTAMP_ITEM_scores.npy" 
+        "item": r"data/recsys_data/amazon_cds/bias_scores/MF_scores/20260114-1514_ITEM_scores.npy" 
     },
     "CFAdaBoost (Design 1)": {
-        "user": r"data\recsys_data\amazon_cds\bias_scores\MF_CFadaboost_scores\20260108-1636_boost_scores.npy",
-        "item": r"data\recsys_data\amazon_cds\bias_scores\MF_CFadaboost_scores\YOUR_NEW_TIMESTAMP_ITEM_scores.npy"
+        "user": r"data/recsys_data/amazon_cds/bias_scores/MF_CFadaboost_scores/20260114-1526_boost_scores.npy",
+        "item": r"data/recsys_data/amazon_cds/bias_scores/MF_CFadaboost_scores/20260114-1526_ITEM_scores.npy"
     },
     "CFBoost (Design 2)": {
-        "user": r"data\recsys_data\amazon_cds\bias_scores\MF_adaboost_scores\20260103-1815_boost_scores.npy",
-        "item": r"data\recsys_data\amazon_cds\bias_scores\MF_adaboost_scores\YOUR_NEW_TIMESTAMP_ITEM_scores.npy"
+        "user": r"data/recsys_data/amazon_cds/bias_scores/MF_adaboost_scores/20260114-1515_boost_scores.npy",
+        "item": r"data/recsys_data/amazon_cds/bias_scores/MF_adaboost_scores/20260114-1515_ITEM_scores.npy"
     }
 }
 
