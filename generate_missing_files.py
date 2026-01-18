@@ -1,9 +1,8 @@
 import numpy as np
 import scipy.sparse as sp
-from tqdm import tqdm # You might need to pip install tqdm
+from tqdm import tqdm
 
 # CONFIGURATION
-# Ensure these paths match where your files are located
 TRAIN_FILE = 'data/recsys_data/amazon_cds/user_train_like.npy'
 TEST_FILE = 'data/recsys_data/amazon_cds/user_test_like.npy'
 VAL_FILE = 'data/recsys_data/amazon_cds/user_vali_like.npy'
@@ -11,12 +10,12 @@ VAL_FILE = 'data/recsys_data/amazon_cds/user_vali_like.npy'
 def generate_files():
     print(f"Loading {TRAIN_FILE}...")
     # These files usually contain an array of lists: index=user_id, value=[list of item_ids]
-    # We use allow_pickle=True because it is likely an object array (lists of variable lengths)
+    # allow_pickle=True because it is likely an object array (lists of variable lengths)
     train_data = np.load(TRAIN_FILE, allow_pickle=True)
     
     num_users = len(train_data)
     
-    # We need to find the maximum item ID to know the matrix shape
+    # find the maximum item ID to know the matrix shape
     max_item_id = 0
     for items in train_data:
         if len(items) > 0:
