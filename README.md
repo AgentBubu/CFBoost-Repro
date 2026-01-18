@@ -1,54 +1,79 @@
-# Combating Heterogeneous Model Biases in Recommendations via Boosting
+# CFBoost Reproduction: Combating Heterogeneous Model Biases
 
-## Basic Usage
-- Change the experimental settings in `main_config.cfg` and the model hyperparameters in `model_config`. </br>
-- Run `main.py` to train and test models. </br>
-- Command line arguments are also acceptable with the same naming in configuration files. (Both main/model config)
+This repository contains the reproduction code for the WSDM '25 paper: **"Combating Heterogeneous Model Biases in Recommendations via Boosting"**.
 
-For example: ```python main.py --model_name MultVAE --lr 0.001```
+This project is a fork of the [original repository](https://github.com/JP-25/CFBoost). It includes significant code refactoring, bug fixes for missing data attributes, and custom scripts to reproduce the tables and figures presented in the paper.
 
-## Running LOCA
-Before running LOCA, you need (1) user embeddings to find local communities and (2) the global model to cover users who are not considered by local models. </br>
+## 🚀 Key Improvements in This Fork
+This version provides:
 
-1. Run a single MultVAE to get user embedding vectors and the global model: 
-
-`python main.py --model_name MultVAE` 
-
-2. Train LOCA with the specific backbone model:
-
-`python main.py --model_name LOCA_VAE` 
-
-## Running CFBoost and CFAdaboost
-Change different designs of &alpha;, design1 and design2 in the code.
-
-`python main.py --model_name MF_adaboost`
+1.  **Data Generation Scripts:** Automates the creation of missing `.npy` attributes (`user_mainstream.npy`, `item_popularity.npy`, etc.) which were absent in the original repo but are required for bias evaluation.
+2.  **Code Refactoring:** 
+    *   Separated **Design 1 (CFAdaBoost)** and **Design 2 (CFBoost)** into distinct, standalone model files for easier execution and debugging.
+    *   Modified the base models to calculate **MDG (Mean Discounted Gain)** for item-side fairness evaluation, which was not implemented in the original code.
+3.  **Reproduction Scripts:** One-click Python scripts to generate Tables 1-4 and Figures 1, 3, and 4 as high-quality images.
 
 ---
 
-## Requirements
-- Python 3.7 or higher
-- Torch 1.5 or higher
+## 🛠️ Setup & Installation
 
-## Appendix
-Complete Appendix can be found [here](https://github.com/JP-25/CFBoost/blob/main/Appendix.pdf)
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/AgentBubu/CFBoost-Repro.git
+    cd CFBoost-Repro
+    ```
 
-## Citation
-cited papaer:
+2.  **Install dependencies:**
+    ```bash
+    pip install torch numpy pandas scipy matplotlib tqdm
+    ```
+
+---
+
+## 📊 Step 1: Data Preparation
+
+The original repository assumes certain pre-calculated attribute files exist. This repo generates them for you based on the dataset.
+
+1.  Ensure your dataset (e.g., `amazon_cds`) is located in `data/recsys_data/`.
+2.  Run the generation script:
+    ```bash
+    python generate_missing_files.py
+    ```
+    *This creates `user_activeness.npy`, `user_mainstream.npy`, `item_popularity.npy`, and `item_mainstream.npy`.*
+
+---
+
+## 🧠 Step 2: Training the Models
+
+To reproduce the results, you need to train three specific models. Configuration files (`.cfg`) have been pre-set for the **Amazon CDs** dataset.
+
+### 1. Matrix Factorization (Baseline)
+This runs the standard MF model, modified to calculate item-side metrics.
+```bash
+python main.py --model_name MF
 ```
-@inproceedings{10.1145/3701551.3703505,
-author = {Pan, Jinhao and Caverlee, James and Zhu, Ziwei},
-title = {Combating Heterogeneous Model Biases in Recommendations via Boosting},
-year = {2025},
-isbn = {9798400713293},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3701551.3703505},
-doi = {10.1145/3701551.3703505},
-booktitle = {Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining},
-pages = {222–231},
-numpages = {10},
-keywords = {boosting, collaborative filtering, model biases, recommender systems},
-location = {Hannover, Germany},
-series = {WSDM '25}
+
+## 📈 Step 3: Reproducing Tables & Figures
+Once training is complete, you can generate the exact visualizations from the paper using these custom scripts.
+```bash
+python reproduce_tables_img.py
+```
+```bash
+python reproduce_figure_1.py
+```
+```bash
+python reproduce_figure_3.py
+```
+```bash
+python reproduce_figure_4.py
+```
+
+---
+## 📝 Citation
+If you use this code, please cite the original paper:
+@inproceedings{pan2025combating,
+  title={Combating Heterogeneous Model Biases in Recommendations via Boosting},
+  author={Pan, Jinhao and Caverlee, James and Zhu, Ziwei},
+  booktitle={WSDM '25},
+  year={2025}
 }
-```
