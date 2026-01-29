@@ -9,13 +9,10 @@ VAL_FILE = 'data/recsys_data/amazon_cds/user_vali_like.npy'
 
 def generate_files():
     print(f"Loading {TRAIN_FILE}...")
-    # These files usually contain an array of lists: index=user_id, value=[list of item_ids]
-    # allow_pickle=True because it is likely an object array (lists of variable lengths)
     train_data = np.load(TRAIN_FILE, allow_pickle=True)
     
     num_users = len(train_data)
     
-    # find the maximum item ID to know the matrix shape
     max_item_id = 0
     for items in train_data:
         if len(items) > 0:
@@ -52,11 +49,10 @@ def generate_files():
     # ==========================================
     # The paper defines User Mainstreamness as the average Jaccard similarity 
     # to all other users. This is computationally heavy (O(N^2)).
-    # We use Sparse Matrices to speed this up.
+    # I use Sparse Matrices to speed this up.
     
     print("Generating User/Item Mainstream scores (This might take a moment)...")
     
-    # Convert list of lists to a Sparse Binary Matrix (User x Item)
     rows = []
     cols = []
     for u_id, items in enumerate(train_data):
@@ -70,7 +66,6 @@ def generate_files():
     
     # --- A. User Mainstreamness ---
     # Intersection count (A dot A.T)
-    # We do this in batches if memory is an issue, but for 12k users it fits in RAM
     print("  - Calculating User-User Similarity...")
     intersection = interaction_matrix.dot(interaction_matrix.T)
     
@@ -79,17 +74,17 @@ def generate_files():
     user_lens = user_activeness
     
     # Calculate Jaccard for users
-    # We just need the average Jaccard for every user
+    # I just need the average Jaccard for every user
     user_mainstream = np.zeros(num_users)
     
-    # We iterate to save memory (full dense matrix would be too big)
+    # I iterate to save memory (full dense matrix would be too big)
     # Using a sample of users to estimate mainstreamness is standard practice if N is huge,
-    # but for Amazon CDs (12k users), we can try to do it fully or by chunks.
+    # but for Amazon CDs (12k users), I can try to do it fully or by chunks.
     
     # OPTIMIZATION: Only calculate average overlap with the "Global Average User" 
     # or iterate. Let's do a proper calculation using sparse operations.
     
-    # To avoid MemoryError on creating a 12000x12000 dense matrix, we calculate row by row
+    # To avoid MemoryError on creating a 12000x12000 dense matrix, I calculate row by row
     for u in tqdm(range(num_users), desc="User Mainstreamness"):
         if user_lens[u] == 0:
             continue
@@ -108,7 +103,7 @@ def generate_files():
             jaccards[unions == 0] = 0
         
         # Formula (Eq 9 in Appendix): Average Jaccard sum / (N-1)
-        # We exclude the self-similarity (index u) where jaccard is 1.0
+        # I exclude the self-similarity (index u) where jaccard is 1.0
         total_jaccard = np.sum(jaccards) - 1.0 # Remove self
         avg_jaccard = total_jaccard / (num_users - 1)
         user_mainstream[u] = avg_jaccard

@@ -5,10 +5,8 @@ import os
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-# IMPORTANT: Update this to the folder containing 'user_vectors' and 'item_vectors'
 RECORD_DIR = "data/recsys_data/amazon_cds/bias_scores/MF_adaboost_records/20260114-1515_MF_record_scores"
 
-# Attribute files (to identify the specific users/items)
 USER_MAIN_PATH = "user_mainstream.npy"
 USER_ACTIVE_PATH = "user_activeness.npy"
 ITEM_MAIN_PATH = "item_mainstream.npy"
@@ -41,27 +39,15 @@ def get_history(record_dir, type_char, target_idx, max_iters=100):
             
         try:
             data = np.load(file_path, allow_pickle=True)
-            # Data shape is (Num_Entities, 1) or (Num_Entities,)
             val = data[target_idx]
             if isinstance(val, np.ndarray): val = val.item()
-            
-            # The paper plots negative values decreasing. 
-            # In code, these are error means (positive). 
-            # To match the visual curve of "Loss Reduction", we negate them 
-            # or plot the cumulative negative log. 
-            # For reproduction visualization, we plot the negative of the cumulative sum 
-            # (or just negative raw) to match the visual style of the paper.
-            # Here we plot: -1 * Cumulative Sum of Error (Simulating Log Bound reduction)
             history.append(val)
         except Exception as e:
             print(f"Error reading {file_name}: {e}")
             break
             
-    # Convert to cumulative negative trend to match Figure 3 style
-    # (The paper likely plots log(Loss_Bound), which is negative and decreasing)
     if history:
         history = np.array(history)
-        # Normalize and flip for visualization match
         cumulative_curve = -1 * np.cumsum(history) * 0.001 # Scale factor for visual similarity
         return cumulative_curve
     return []
